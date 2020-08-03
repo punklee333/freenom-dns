@@ -16,28 +16,23 @@ from freenom_dns import Freenom
 if __name__ == '__main__':
     freenom = Freenom('your username', 'your password')
     ###################################################
-    pub_ip = freenom.getPublicIP()
+    pub_ip = freenom.get_public_ip()
 
     # add or modify a record
-    freenom.setRecord('your domain', '', 'a', pub_ip)
-    freenom.setRecord('your domain', 'www', 'a', pub_ip)
-    freenom.setRecord('your domain', 'test', 'a', pub_ip)
+    freenom.set_record('your domain', '', 'a', pub_ip)
+    freenom.set_record('your domain', 'www', 'a', pub_ip)
 
     # delete a record
-    freenom.delRecord('your domain', 'test')
+    freenom.del_record('your domain', 'www')
 
     # show all records with domain
-    freenom.showRecords('your domain')
+    freenom.show_records('your domain')
 ```
 ## print results
 ```
-doLogin: Login successfully.
-PublicIP: xxx.xxx.xxx.xxx
-setRecord: There were no changes
-setRecord: There were no changes
-setRecord: Record added successfully
-delRecord: Record deleted successfully
---------------your domain--------------
+There were no changes
+Record added successfully
+---------------your domain----------------
 ['', 'A', '3600', 'xxx.xxx.xxx.xxx']
 ['WWW', 'A', '3600', 'xxx.xxx.xxx.xxx']
 ```
