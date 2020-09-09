@@ -4,19 +4,21 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-here = path.abspath(path.dirname(__file__))
+import freenom_dns
 
+rootdir = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(rootdir, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+_version = freenom_dns.__version__
 setup(
-    name='freenom_dns',
-    version='1.0.0',
+    name=f'freenom_dns_{_version}',
+    version=_version,
     url='https://github.com/PunkLee2py/freenom-dns',
     author='Punk Lee',
     author_email='punklee333@gmail.com',
-    description='An unofficial python implementation for managing freenom_dns.com dns records.',
+    description='An unofficial python implementation for managing freenom.com dns records.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),

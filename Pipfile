@@ -4,11 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+twine = "*"
 
 [packages]
-requests = "*"
-retrying = "*"
-lxml = "*"
+requests = "2.24.0"
+retrying = "1.3.3"
+lxml = "4.5.2"
 
 [requires]
 python_version = "3.8"

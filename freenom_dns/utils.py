@@ -5,63 +5,40 @@
 :url: https://punk_lee.gitee.io/
 :copyright: ©2020 Punk Lee <punklee333@gmail.com>
 """
-from lxml.html import etree
+import requests, re
+
+NUM = 50
+
+def print_dev(text, sym='-', align='<', num=NUM):
+    print(f'{f"{text}":{sym}{align}{num}}')
+
+def print_info(text, num=NUM):
+    print(f'{f"{text}":-^{num}}')
+
+def print_warn(text, num=NUM):
+    print(f'{f"{text}":#^{num}}')
 
 
-def parse_html(html, xpath):
-    element = etree.HTML(html)
-    return element.xpath(xpath)
+def get_public_ip(url=None, timeout=12):
+    """
+    Get Public IP Address
+    :param url: public ip api address
+    :type url: str
+    :return: ip address
+    """
+    resp = requests.get(url, timeout=timeout).text
+    return match_ip_address(resp)
 
 
-def is_loggedIn(html):
-    return 'loggedIn' in parse_html(html, '//body/@class')[0]
+def match_ip_address(ip):
+    pattern = re.compile(r'((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}')
+    result = pattern.search(ip)
+    return result.group() if result else ''
 
 
-def get_token(html):
-    return parse_html(html, '//input[@name="token"]/@value')[0]
-
-
-def get_login_msg(html):
-    return parse_html(html, '//div[contains(@class,"error-message")]/p/text()')[0]
-
-
-def get_domains_data(html):
-    data = {}
-    domains = parse_html(html, '//td[@class="second"]//text()')
-    domain_hrefs = parse_html(html, '//td[@class="seventh"]//a/@href')
-    if domains and domain_hrefs:
-        domains = [i.strip() for i in domains[:] if i.strip()]
-        id = [i.split('=')[-1] for i in domain_hrefs[:]]
-        data = dict(zip(domains, id))
-    return data
-
-
-def get_records_list(html):
-    data = []
-    records_list = parse_html(html, '//*[@id="recordslistform"]/table/tbody/tr')
-    if records_list:
-        for record in records_list:
-            tmp_list = []
-            name = record.xpath('./td[@class="name_column"]//input[@type="text"]/@value')[0]
-            type = record.xpath('./td[@class="type_column"]//text()')[0]
-            ttl = record.xpath('./td[@class="ttl_column"]//input[@type="text"]/@value')[0]
-            target = record.xpath('./td[@class="value_column"]//input[@type="text"]/@value')[0]
-            tmp_list.append(name)
-            tmp_list.append(type)
-            tmp_list.append(ttl)
-            tmp_list.append(target)
-            data.append(tmp_list)
+def counter(array):
+    data = dict()
+    for key in array:
+        data[key] = data.get(key, 0) + 1
 
     return data
-
-
-def show_result(html):
-    xpath_list = ['//div[@class="recordslist"]/ul/li/text()', '//section[@class="domainContent"]//p/text()']
-    # show dns result
-    for xpath in xpath_list:
-        dns_res = parse_html(html, xpath)
-        if dns_res:
-            print(dns_res[0])
-            return
-    print('cannot find dns result')
-    return
