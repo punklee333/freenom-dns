@@ -1,27 +1,22 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-# To use a consistent encoding
-from codecs import open
-from os import path
-
 import freenom_dns
 
-rootdir = path.abspath(path.dirname(__file__))
-# Get the long description from the README file
-with open(path.join(rootdir, 'README.md'), encoding='utf-8') as f:
+name = freenom_dns.__name__
+version = freenom_dns.__version__
+with open("README.md", "r") as f:
     long_description = f.read()
+install_requires = ["requests>=2.24.0", "retrying>=1.3.3", "lxml>=4.5.2"]
 
-_version = freenom_dns.__version__
-setup(
-    name=f'freenom_dns',
-    version=_version,
-    url='https://github.com/PunkLee2py/freenom-dns',
-    author='Punk Lee',
-    author_email='punklee333@gmail.com',
-    description='An unofficial python implementation for managing freenom.com dns records.',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    packages=find_packages(),
-    license='MIT',
-    install_requires=['requests', 'lxml', 'retrying']
-)
+setup(name=name,
+      version=version,
+      author='Punk Lee',
+      author_email='punklee333@gmail.com',
+      description='An unofficial python implementation for managing freenom.com dns records.',
+      long_description=long_description,
+      long_description_content_type='text/markdown',
+      url='https://github.com/PunkLee2py/freenom-dns',
+      license='MIT',
+      python_requires='>=3.6',
+      packages=find_packages(),
+      install_requires=install_requires)

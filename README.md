@@ -1,5 +1,5 @@
-Freenom-dns Script v2.0.0
-=========================
+Freenom-dns Script v2.x
+=======================
 An unofficial python implementation for managing freenom.com dns records.
 
 ## Freenom
